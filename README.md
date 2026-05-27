@@ -6,24 +6,98 @@
 
 ---
 
-
-
 ### Weekly content (start here each week)
 
 
-| Week | Guide                                                                                                        | Focus                                                                                                                      |
-| ---- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| 1    | [week-01-linux-networking-git.md](./content/week-01-linux-networking-git.md)                                 | Linux, shell, networking, Git, nginx, systemd · [Week 1 contest](https://csot-devops.devclub.in/contest/week-01) (100 pts) · [submission guide](./submission/README.md) |
-| 2    | Week 2                                                                                                       | CI/CD, GitHub Actions, quality gates, GHCR                                                                                 |
-| 3    | Week 3                                                                                                       | Docker, Compose, image security                                                                                            |
-| 4    | Week 4                                                                                                       | Kubernetes, Helm, GitOps                                                                                                   |
-| 5    | Week 5                                                                                                       | Terraform, AWS, Cloudflare, FinOps                                                                                         |
-| 6    | Week 6                                                                                                       | Observability, SRE, capstone                                                                                               |
+| Week | Guide                                                                        | Focus                                                                                                                                                                                                      |
+| ---- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | [week-01-linux-networking-git.md](./content/week-01-linux-networking-git.md) | Linux, shell, networking, Git, nginx, systemd · [contest](https://csot-devops.devclub.in/contest/week-01) (100 pts, [submit guide](./submission/README.md)) · [mini-project](./projects/week-01/README.md) |
+| 2    | Week 2                                                                       | CI/CD, GitHub Actions, quality gates, GHCR                                                                                                                                                                 |
+| 3    | Week 3                                                                       | Docker, Compose, image security                                                                                                                                                                            |
+| 4    | Week 4                                                                       | Kubernetes, Helm, GitOps                                                                                                                                                                                   |
+| 5    | Week 5                                                                       | Terraform, AWS, Cloudflare, FinOps                                                                                                                                                                         |
+| 6    | Week 6                                                                       | Observability, SRE, capstone                                                                                                                                                                               |
 
 
-Read the week's guide for teaching material. 
+Read the week's guide for teaching material, then follow the global workflow below to submit your work.
 
-**Week 1 includes a mandatory contest** (100 points, runs the full week) at **[csot-devops.devclub.in](https://csot-devops.devclub.in)** — see the **[submission guidelines](./submission/README.md)** for how to install the `csot` CLI and submit.
+---
+
+## 🚀 How to Participate (read this once, then refer back)
+
+**Fork it once at the start of the program** and do **all** your work — contest code and mini-projects — in your own fork. Each week's submissions go through two channels:
+
+- **Contest** → the `csot` CLI (uploads directly to the autograder).
+- **Mini-project** → a **submission form** (link will be shared in whatsapp).
+
+### Step 0 — One-time setup: fork & clone
+
+```bash
+# 1. Click "Fork" (top-right of this repo) → fork it to your GitHub account.
+#    You now have:   github.com/<your-username>/csot-devops   (your fork)
+#    The original:   github.com/DevClub-IITD/csot-devops      (upstream)
+
+# 2. Clone YOUR fork to your laptop:
+git clone https://github.com/<your-username>/csot-devops.git
+cd csot-devops
+
+# 3. Add the original repo as "upstream" so you can pull new weekly content:
+git remote add upstream https://github.com/DevClub-IITD/csot-devops.git
+git remote -v   # should show: origin = your fork, upstream = the original
+
+# 4. Each Monday, pull the new week's content from upstream into your fork:
+git checkout main
+git fetch upstream
+git merge upstream/main          # or:  git rebase upstream/main
+git push origin main             # update your fork on GitHub
+```
+
+> The fork is **your single workspace** for the entire 6-week program — contest attempts, mini-project work-in-progress, scratch scripts, notes. You never push anything back to this upstream repo. Mini-project deliverables are submitted via a **form** (link shared in your cohort group); the form asks for your public project repo URL.
+
+### Where your work goes inside your fork
+
+```text
+csot-devops/                              ← YOUR fork
+├── content/                              ← read-only; pulled from upstream
+├── submission/
+│   └── week-NN/                          ← contest code lives here
+│       ├── 01.sh   02.sh   ...           ← graded by the `csot` CLI
+│       └── ...
+└── projects/
+    └── week-NN/                          ← (optional) scratchpad for project drafts
+                                          ← final project lives in its OWN public repo
+                                          ← submit that repo URL via the form
+```
+
+### Per-week submission cycle
+
+Every week you have **two deliverables**. They are graded independently and have different submit flows.
+
+
+| Deliverable                  | Where you write code               | How you submit                                           | Where graded                                                              | Guide                                                         |
+| ---------------------------- | ---------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| 🏆 **Contest** (autograded)  | `submission/week-NN/` in your fork | `csot submit ./submission/week-NN`                       | [csot-devops.devclub.in](https://csot-devops.devclub.in) (Docker sandbox) | `[/submission/README.md](./submission/README.md)`             |
+| 📦 **Mini-project** (manual) | your **own public GitHub repo**    | fill the **submission form** (link in your cohort group) | manual mentor review                                                      | `[/projects/week-NN/README.md](./projects/week-01/README.md)` |
+
+
+### Week-by-week submission paths
+
+
+| Week | Contest folder                                  | Mini-project guide                                            | Submission form          |
+| ---- | ----------------------------------------------- | ------------------------------------------------------------- | ------------------------ |
+| 1    | `[/submission/week-01/](./submission/week-01/)` | `[/projects/week-01/README.md](./projects/week-01/README.md)` | *shared in cohort group* |
+| 2    | `/submission/week-02/` *(coming soon)*          | `/projects/week-02/README.md` *(coming soon)*                 | —                        |
+| 3    | `/submission/week-03/` *(coming soon)*          | `/projects/week-03/README.md` *(coming soon)*                 | —                        |
+| 4    | `/submission/week-04/` *(coming soon)*          | `/projects/week-04/README.md` *(coming soon)*                 | —                        |
+| 5    | `/submission/week-05/` *(coming soon)*          | `/projects/week-05/README.md` *(coming soon)*                 | —                        |
+| 6    | `/submission/week-06/` *(coming soon)*          | `/projects/week-06/README.md` *(coming soon)*                 | —                        |
+
+
+### Rules of the fork model
+
+- **Never** commit secrets / `.env` files to your fork — even if it's private, it's still a GitHub repo. Run `trufflehog git file://. --only-verified` before pushing.
+- **Keep your fork public** so mentors can audit your contest attempts and project work-in-progress if needed.
+- For each mini-project, also create a **separate dedicated public repo** for the project itself (better portfolio piece than a folder inside the cohort fork). That dedicated repo's URL is what you put in the form.
 
 ---
 
@@ -31,7 +105,7 @@ Read the week's guide for teaching material.
 
 ### Week 1 — Linux, Networking, Git & Sysadmin Foundations
 
- **[Read Week 1 content](./content/week-01-linux-networking-git.md)** · 🏆 **[Week 1 contest](https://csot-devops.devclub.in/contest/week-01)** (12 tasks, **100 points**, autograded) · 📥 **[Submission guidelines](./submission/README.md)**
+ **[Read Week 1 content](./content/week-01-linux-networking-git.md)** · 🏆 **[Week 1 contest](https://csot-devops.devclub.in/contest/week-01)** (12 tasks, **100 pts**, autograded — [contest submit guide](./submission/README.md)) · 📦 **[Mini-project](./projects/week-01/README.md)** (50 pts, form-submitted)
 
 Master the OS and the network — the bedrock everything else stacks on. Topics covered:
 
@@ -164,12 +238,17 @@ Cloud bonuses (AWS / GCP / managed Kubernetes) are **optional** for students who
 
 ---
 
-## 🚀 Getting Started
+## 🗓 Weekly Cadence
 
-1. Open **[Week 1](./content/week-01-linux-networking-git.md)** — modules, builds, and mini-project live in `**content/`** (one file per week)
-2. Set up Linux / WSL, install Git, Docker, GitHub CLI (see Week 1's *Tools & Software Used*)
-3. Complete the **mandatory** **[Week 1 contest](https://csot-devops.devclub.in/contest/week-01)** (`csot` CLI, 100 points, open all week) — follow the **[submission guidelines](./submission/README.md)** for install + submit steps — and ship the mini-project
-4. Each following week: read the matching `content/week-0N-*.md` guide before that week's builds
+For each week (Week 1 first):
+
+1. **Monday — sync your fork** with upstream (`git fetch upstream && git merge upstream/main && git push`) to pull the new week's content.
+2. **Mon–Wed — read** the matching `content/week-0N-*.md` guide; complete the modules and builds.
+3. **Wed–Sat — contest**: solve the 12 tasks in `submission/week-NN/` of your fork; submit incrementally with `csot submit . -t NN` as you go. (Guide: `[/submission/README.md](./submission/README.md)`)
+4. **Thu–Sun — mini-project**: build your DevOps Toolkit / weekly project in its **own public GitHub repo**, then submit the repo URL via the **submission form** shared in your cohort group. (Guide: `[/projects/week-01/README.md](./projects/week-01/README.md)`)
+5. **Sunday 11:59 PM IST — deadline** for both deliverables.
+
+First-time setup (fork + clone + add upstream): see **[How to Participate](#-how-to-participate-read-this-once-then-refer-back)** above.
 
 ---
 

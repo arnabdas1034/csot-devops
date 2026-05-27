@@ -37,22 +37,24 @@ This file is **Week 1 of the CSOT DevOps weekly curriculum**. The full six-week 
 This week's toolbox.
 
 
-| Tool                | Purpose                        | Install (Linux/WSL)                              | Install (Mac)             | Install (Windows)                               |
-| ------------------- | ------------------------------ | ------------------------------------------------ | ------------------------- | ----------------------------------------------- |
-| **Linux / WSL2**    | The OS we live in              | Already on Ubuntu/Kali/Debian                    | macOS is Unix-like; skip  | `wsl --install -d Ubuntu` (PowerShell as admin) |
-| **bash**            | Default shell                  | Built-in                                         | Built-in                  | Inside WSL                                      |
-| **git**             | Version control                | `sudo apt install git`                           | `brew install git`        | Git for Windows + Git Bash, or use WSL          |
-| **gh** (GitHub CLI) | Auth + PRs from terminal       | `sudo apt install gh`                            | `brew install gh`         | `winget install GitHub.cli`                     |
-| **tmux**            | Persistent terminal sessions   | `sudo apt install tmux`                          | `brew install tmux`       | Inside WSL                                      |
-| **systemd**         | Service manager                | Built-in on modern distros                       | N/A (use launchd)         | Inside WSL                                      |
-| **nginx**           | Web server / reverse proxy     | `sudo apt install nginx`                         | `brew install nginx`      | Inside WSL                                      |
-| **certbot**         | Let's Encrypt TLS certificates | `sudo apt install certbot python3-certbot-nginx` | `brew install certbot`    | Inside WSL                                      |
-| **curl, wget**      | HTTP clients                   | Pre-installed                                    | Pre-installed             | Inside WSL                                      |
-| **dig, nslookup**   | DNS lookup                     | `sudo apt install dnsutils`                      | Pre-installed (`bind`)    | Inside WSL                                      |
-| **ss, netstat**     | Socket inspection              | Pre-installed                                    | `netstat` only            | Inside WSL                                      |
-| **htop**            | Better `top`                   | `sudo apt install htop`                          | `brew install htop`       | Inside WSL                                      |
-| **jq**              | JSON processor                 | `sudo apt install jq`                            | `brew install jq`         | Inside WSL                                      |
-| **trufflehog**      | Secret scanner                 | See [Module 7](#module-7--secrets-hygiene)       | `brew install trufflehog` | `pip install truffleHog`                        |
+> **Mac & Windows users:** you'll be running every tool **inside an Ubuntu VM** — multipass (Mac) or WSL2 (Windows). So the only thing you install on your host OS is multipass/WSL itself; everything else uses the same `sudo apt install …` as Linux. See **[Prerequisites & Setup](#prerequisites--setup)** below for the one-time setup.
+
+| Tool                | Purpose                        | Install (Linux / inside WSL2 / inside multipass) |
+| ------------------- | ------------------------------ | ------------------------------------------------ |
+| **Ubuntu shell**    | The OS we live in              | Linux: already there. Windows: `wsl --install -d Ubuntu` (PowerShell as admin). macOS: `brew install --cask multipass && multipass launch --name dev` |
+| **bash**            | Default shell                  | Built-in                                         |
+| **git**             | Version control                | `sudo apt install git`                           |
+| **gh** (GitHub CLI) | Auth + PRs from terminal       | `sudo apt install gh`                            |
+| **tmux**            | Persistent terminal sessions   | `sudo apt install tmux`                          |
+| **systemd**         | Service manager                | Built-in on modern distros                       |
+| **nginx**           | Web server / reverse proxy     | `sudo apt install nginx`                         |
+| **certbot**         | Let's Encrypt TLS certificates | `sudo apt install certbot python3-certbot-nginx` |
+| **curl, wget**      | HTTP clients                   | Pre-installed                                    |
+| **dig, nslookup**   | DNS lookup                     | `sudo apt install dnsutils`                      |
+| **ss, netstat**     | Socket inspection              | Pre-installed (`ss`); `sudo apt install net-tools` for `netstat` |
+| **htop**            | Better `top`                   | `sudo apt install htop`                          |
+| **jq**              | JSON processor                 | `sudo apt install jq`                            |
+| **trufflehog**      | Secret scanner                 | See [Module 7](#module-7--secrets-hygiene)       |
 
 
 **Verification command** (run after installing everything):
@@ -83,16 +85,50 @@ Expected output:
 
 ## Prerequisites & Setup
 
-- A Linux box: (Any one)
-  - 1. If on Windows : Do install WSL2  [https://youtu.be/J8cy6MDkacI?si=XP1w5gTWI820eoQ_](https://youtu.be/J8cy6MDkacI?si=XP1w5gTWI820eoQ_)
-  - 1. If you have linux , you are good to go.
-  - 1. Free Tier cloud compute like Azure (100$ credits)
+- A Linux shell environment: (Any one)
+  - 1. **Linux** — you are good to go.
+  - 1. **Windows** — install WSL2 (Ubuntu): [https://youtu.be/J8cy6MDkacI?si=XP1w5gTWI820eoQ_](https://youtu.be/J8cy6MDkacI?si=XP1w5gTWI820eoQ_). Run **all** snippets inside the WSL terminal, not PowerShell/CMD.
+  - 1. **macOS** — install **multipass** (the "WSL of macOS" — a free, CLI-only Ubuntu VM from Canonical). See the **macOS setup** below. Run **all** snippets inside the multipass shell, not the host macOS terminal.
+  - 1. **Free-tier cloud compute** (Azure $100 student credits, AWS free tier, GCP $300 credits, Oracle Always Free) — SSH into an Ubuntu VM and treat it like Linux.
 - 4 GB RAM minimum
 - A GitHub account (free)
 - Cloudflare Account
 - (Optional) A domain name for Build 2's HTTPS — `.tech`  Free with github education on [https://get.tech/github-student-developer-pack](https://get.tech/github-student-developer-pack)
 
-All code snippets are Linux bash code you need either WSL2 or Linux Operating System
+### macOS setup (one-time, ~5 minutes)
+
+macOS is Unix but **not Linux** — it doesn't ship `systemd`, uses BSD versions of `sed`/`netstat`/`find`, and has no `apt`. Rather than fight that for the whole week, we run the entire curriculum inside an Ubuntu VM via **multipass** — Canonical's official, free, CLI-only Ubuntu-on-Mac tool. Think of it as **WSL for macOS**. This way every `apt install …`, every `systemctl` command, every snippet in this guide works **exactly as written** — same as Linux/WSL2 users.
+
+```bash
+brew install --cask multipass            # one-time install (need Homebrew: https://brew.sh)
+
+multipass launch --name dev --cpus 2 --memory 4G --disk 20G   # one-time: spin up Ubuntu LTS
+
+multipass shell dev                      # drop into the Ubuntu VM — your daily entry point
+# you are now in Ubuntu: `sudo apt update`, `systemctl ...`, everything works
+exit                                     # back to macOS terminal
+
+# day-to-day
+multipass stop dev                       # shut it down when done
+multipass start dev                      # resume next time
+multipass list                           # see your VMs and their IPs
+```
+
+Useful extras:
+
+- **Share a folder from your Mac into the VM** (so you can edit code in your Mac editor and run it in Ubuntu):
+
+  ```bash
+  multipass mount ~/code dev:/home/ubuntu/code
+  ```
+
+- **Get the VM's IP** (for testing nginx from your Mac browser in Build 2):
+
+  ```bash
+  multipass info dev | grep IPv4
+  ```
+
+**Rule of thumb for Mac users:** every code snippet in this week's modules runs inside `multipass shell dev`. The only thing you do on the host macOS terminal is `multipass shell dev` / `multipass start dev` / `multipass stop dev`.
 
 ---
 
@@ -1702,7 +1738,7 @@ Cloudflare gives you free HTTPS, no certbot needed.
 
 ## Weekly Mini-Project — DevOps Toolkit Repo
 
-> **Submission deadline: Sunday 11:59 PM (IST)**
+> **Submission deadline: Sunday 11:59 PM (IST)** · **How to submit:** see **[`projects/week-01/README.md`](../projects/week-01/README.md)** (submission form shared in cohort group, manually graded, 50 pts)
 
 This project has two tracks. 
 

@@ -2,7 +2,9 @@
 
 **Mandatory contest** · **100 points** · Platform: **[csot-devops.devclub.in](https://csot-devops.devclub.in)**
 
-Put your solutions in a folder (this one, or any path) using the **exact filenames** below, then submit with the `csot` CLI.
+> **Workflow:** this assumes you've already **forked this repo** and cloned your fork per the **[How to Participate](../README.md#-how-to-participate-read-this-once-then-refer-back)** section of the root README. Contest code lives in `submission/week-01/` of **your fork** — commit your solutions there so you have a version history of your attempts.
+
+Put your solutions in **`submission/week-01/` of your fork** (recommended) using the **exact filenames** below, then submit with the `csot` CLI. The CLI uploads your files directly to the autograder — it does **not** read your fork's GitHub history.
 
 ---
 
@@ -46,7 +48,7 @@ week-01/
     └── todo.sh
 ```
 
-You may use this repo path: `submission/week-01/` — add your scripts here, then submit from the repo root or from this folder.
+Use the repo path: `submission/week-01/` in **your fork** — add your scripts here, commit them (so you have history of your attempts), then submit from the repo root or from this folder. Pushing to your fork is optional for the contest but recommended.
 
 ---
 
